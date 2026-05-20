@@ -1,17 +1,71 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CampusOps</title>
-</head>
 
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
 <body>
 
-<h1>CampusOps Portal</h1>
+<nav class="navbar">
 
-<a href="/dashboard">Dashboard</a>
-<br><br>
+    <div class="logo">CampusOps</div>
 
-<a href="/complaint">Raise Complaint</a>
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/complaint">Complaint</a>
+        <a href="/dashboard">Dashboard</a>
+    </div>
+
+</nav>
+
+<section class="hero">
+
+    <div class="hero-left">
+
+        <h1>Smart Campus Service Platform</h1>
+
+        <p>
+            CampusOps helps students raise complaints, track issues,
+            and manage campus services through a modern dashboard system.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="/complaint" class="primary-btn">
+                Raise Complaint
+            </a>
+
+            <a href="/dashboard" class="secondary-btn">
+                Open Dashboard
+            </a>
+            <a href="/admin">Admin</a>
+
+        </div>
+
+    </div>
+
+    <div class="hero-right">
+
+        <div class="glass-card feature-box">
+
+            <h2>Platform Features</h2>
+
+            <ul>
+                <li>Complaint Tracking</li>
+                <li>Real-Time Dashboard</li>
+                <li>SQLite Database</li>
+                <li>Docker Deployment</li>
+                <li>GitHub Actions CI/CD</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
 
 </body>
 </html>

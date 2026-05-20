@@ -2,37 +2,39 @@
 <html>
 <head>
     <title>Complaint</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
+
+<div class="form-page">
+<div class="form-container glass-card">
 
 <h1>Raise Complaint</h1>
 
-<form>
+<form method="POST">
 
-Name:
-<br>
-<input type="text">
+<input name="name" placeholder="Name" required>
+<input name="email" placeholder="Email" required>
 
-<br><br>
+<select name="category" required>
+    <option disabled selected>Select Category</option>
+    <option>Hostel</option>
+    <option>Classroom</option>
+    <option>Washroom</option>
+    <option>WiFi</option>
+    <option>Lab</option>
+</select>
 
-Issue Type:
-<br>
-<input type="text">
+<textarea name="issue" placeholder="Issue"></textarea>
 
-<br><br>
-
-Description:
-<br>
-<textarea></textarea>
-
-<br><br>
-
-<button type="submit">
-Submit
-</button>
+<button type="submit">Submit</button>
 
 </form>
+
+<a href="/" class="back-link">Back</a>
+
+</div>
+</div>
 
 </body>
 </html>

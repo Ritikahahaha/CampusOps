@@ -2,15 +2,51 @@
 <html>
 <head>
     <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
 
-<h1>Campus Dashboard</h1>
+<div class="dashboard-layout">
 
-<h3>Total Complaints : 20</h3>
-<h3>Resolved : 15</h3>
-<h3>Pending : 5</h3>
+<div class="sidebar">
+    <a href="/">Home</a>
+    <a href="/complaint">Complaint</a>
+    <a href="/dashboard">Dashboard</a>
+</div>
+
+<div class="main-content">
+
+<h1>Dashboard</h1>
+
+<p>Total: {{ total }} | Pending: {{ pending }} | Resolved: {{ resolved }}</p>
+
+<div class="complaints-grid">
+
+{% for c in complaints %}
+
+<div class="complaint-card glass-card">
+
+<h3>{{ c.name }}</h3>
+
+<p>{{ c.issue }}</p>
+
+<p>Category: {{ c.category }}</p>
+
+<span class="status {{ c.status|lower }}">{{ c.status }}</span>
+
+{% if c.status != "Resolved" %}
+<a href="/resolve/{{ c.id }}" class="resolve-btn">Resolve</a>
+{% endif %}
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+</div>
 
 </body>
 </html>
