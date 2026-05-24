@@ -1,52 +1,161 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Dashboard</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CampusOps Dashboard</title>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- ⭐ Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
+
 <body>
+
+<div class="overlay"></div>
 
 <div class="dashboard-layout">
 
-<div class="sidebar">
-    <a href="/">Home</a>
-    <a href="/complaint">Complaint</a>
-    <a href="/dashboard">Dashboard</a>
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+
+        <div>
+
+            <h2 class="sidebar-logo">CampusOps</h2>
+
+            <a href="/">Home</a>
+            <a href="/complaint">Raise Complaint</a>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/admin">Admin</a>
+
+        </div>
+
+        <div class="sidebar-bottom">
+            DevOps Project
+        </div>
+
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+
+        <!-- HEADER -->
+        <div class="dashboard-header">
+
+            <h1>Complaint Dashboard</h1>
+
+            <p class="dashboard-subtitle">
+                Monitor all campus complaints and manage issue resolution.
+            </p>
+
+        </div>
+
+        <!-- STATS -->
+        <div class="stats-grid">
+
+            <div class="stats-card glass-card">
+                <h2>{{ total }}</h2>
+                <p>Total Complaints</p>
+            </div>
+
+            <div class="stats-card glass-card">
+                <h2>{{ pending }}</h2>
+                <p>Pending Issues</p>
+            </div>
+
+            <div class="stats-card glass-card">
+                <h2>{{ resolved }}</h2>
+                <p>Resolved Complaints</p>
+            </div>
+
+        </div>
+
+        <!-- ⭐ CATEGORY BAR CHART -->
+        <div class="glass-card" style="padding:30px; margin-bottom:30px;">
+            <h2 style="margin-bottom:20px;">Category-wise Complaints</h2>
+            <canvas id="categoryChart"></canvas>
+        </div>
+
+        <!-- COMPLAINT LIST -->
+        <div class="complaints-grid">
+
+            {% for c in complaints %}
+
+            <div class="complaint-card glass-card">
+
+                <div class="card-top">
+
+                    <h3>{{ c.name }}</h3>
+
+                    <span class="status {{ c.status|lower }}">
+                        {{ c.status }}
+                    </span>
+
+                </div>
+
+                <p class="issue-text">
+                    {{ c.issue }}
+                </p>
+
+                <div class="category-box">
+                    Category: {{ c.category }}
+                </div>
+
+                {% if c.status != "Resolved" %}
+
+                <a href="/resolve/{{ c.id }}" class="resolve-btn">
+                    Mark as Resolved
+                </a>
+
+                {% endif %}
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
 </div>
 
-<div class="main-content">
+<!-- ⭐ CHART SCRIPT -->
+<script>
+    const ctx = document.getElementById('categoryChart');
 
-<h1>Dashboard</h1>
-
-<p>Total: {{ total }} | Pending: {{ pending }} | Resolved: {{ resolved }}</p>
-
-<div class="complaints-grid">
-
-{% for c in complaints %}
-
-<div class="complaint-card glass-card">
-
-<h3>{{ c.name }}</h3>
-
-<p>{{ c.issue }}</p>
-
-<p>Category: {{ c.category }}</p>
-
-<span class="status {{ c.status|lower }}">{{ c.status }}</span>
-
-{% if c.status != "Resolved" %}
-<a href="/resolve/{{ c.id }}" class="resolve-btn">Resolve</a>
-{% endif %}
-
-</div>
-
-{% endfor %}
-
-</div>
-
-</div>
-
-</div>
+    const categoryChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {{ categories | tojson }},
+            datasets: [{
+                label: 'Complaints Count',
+                data: {{ category_counts | tojson }},
+                backgroundColor: '#00d4ff',
+                borderRadius: 10
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    });
+</script>
 
 </body>
 </html>

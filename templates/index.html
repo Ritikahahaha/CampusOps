@@ -1,35 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>CampusOps</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
 </head>
+
 <body>
+
+<div class="overlay"></div>
+
+<!-- NAVBAR -->
 
 <nav class="navbar">
 
-    <div class="logo">CampusOps</div>
+    <div class="logo">
+        CampusOps
+    </div>
 
     <div class="nav-links">
+
         <a href="/">Home</a>
-        <a href="/complaint">Complaint</a>
+        <a href="/complaint">Raise Complaint</a>
         <a href="/dashboard">Dashboard</a>
+        <a href="/admin">Admin</a>
+
     </div>
 
 </nav>
 
+<!-- HERO SECTION -->
+
 <section class="hero">
 
-    <div class="hero-left">
+    <!-- LEFT -->
 
-        <h1>Smart Campus Service Platform</h1>
+    <div class="hero-left glass-card">
+
+        <span class="tagline">
+            DevOps Powered Smart Campus Platform
+        </span>
+
+        <h1>
+            Smart Campus Complaint Management System
+        </h1>
 
         <p>
-            CampusOps helps students raise complaints, track issues,
-            and manage campus services through a modern dashboard system.
+            CampusOps is a modern campus service platform designed to help
+            students raise complaints, track issues, and monitor complaint
+            resolution through a powerful real-time dashboard integrated
+            with DevOps technologies.
         </p>
 
         <div class="hero-buttons">
@@ -41,25 +66,84 @@
             <a href="/dashboard" class="secondary-btn">
                 Open Dashboard
             </a>
-            <a href="/admin">Admin</a>
 
         </div>
 
     </div>
 
+    <!-- RIGHT -->
+
     <div class="hero-right">
 
-        <div class="glass-card feature-box">
+        <div class="feature-panel glass-card">
 
-            <h2>Platform Features</h2>
+            <h2>
+                Platform Features
+            </h2>
 
-            <ul>
-                <li>Complaint Tracking</li>
-                <li>Real-Time Dashboard</li>
-                <li>SQLite Database</li>
-                <li>Docker Deployment</li>
-                <li>GitHub Actions CI/CD</li>
-            </ul>
+            <div class="feature-grid">
+
+                <div class="feature-box">
+
+                    <h3>Complaint Tracking</h3>
+
+                    <p>
+                        Raise and monitor complaints in real time.
+                    </p>
+
+                </div>
+
+                <div class="feature-box">
+
+                    <h3>Admin Dashboard</h3>
+
+                    <p>
+                        Manage complaint resolution efficiently.
+                    </p>
+
+                </div>
+
+                <div class="feature-box">
+
+                    <h3>Docker Deployment</h3>
+
+                    <p>
+                        Containerized deployment using Docker.
+                    </p>
+
+                </div>
+
+                <div class="feature-box">
+
+                    <h3>Jenkins CI/CD</h3>
+
+                    <p>
+                        Automated pipeline integration support.
+                    </p>
+
+                </div>
+
+                <div class="feature-box">
+
+                    <h3>Email Notifications</h3>
+
+                    <p>
+                        Complaint alerts delivered instantly.
+                    </p>
+
+                </div>
+
+                <div class="feature-box">
+
+                    <h3>SQLite Database</h3>
+
+                    <p>
+                        Secure complaint data management system.
+                    </p>
+
+                </div>
+
+            </div>
 
         </div>
 

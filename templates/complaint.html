@@ -1,39 +1,95 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Complaint</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Raise Complaint | CampusOps</title>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
 </head>
+
 <body>
 
+<div class="overlay"></div>
+
+<nav class="navbar">
+
+    <div class="logo">
+        CampusOps
+    </div>
+
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/complaint">Complaint</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/admin">Admin</a>
+    </div>
+
+</nav>
+
 <div class="form-page">
-<div class="form-container glass-card">
 
-<h1>Raise Complaint</h1>
+    <div class="form-container glass-card">
 
-<form method="POST">
+        <h1>Raise Complaint</h1>
 
-<input name="name" placeholder="Name" required>
-<input name="email" placeholder="Email" required>
+        <p class="admin-text">
+            Submit your campus issue and track the complaint status through the dashboard.
+        </p>
 
-<select name="category" required>
-    <option disabled selected>Select Category</option>
-    <option>Hostel</option>
-    <option>Classroom</option>
-    <option>Washroom</option>
-    <option>WiFi</option>
-    <option>Lab</option>
-</select>
+        <form method="POST">
 
-<textarea name="issue" placeholder="Issue"></textarea>
+            <input
+                type="text"
+                name="name"
+                placeholder="Enter Your Name"
+                required
+            >
 
-<button type="submit">Submit</button>
+            <input
+                type="email"
+                name="email"
+                placeholder="Enter Your Email"
+                required
+            >
 
-</form>
+            <select name="category" required>
 
-<a href="/" class="back-link">Back</a>
+                <option disabled selected>
+                    Select Complaint Category
+                </option>
 
-</div>
+                <option>Hostel</option>
+                <option>Classroom</option>
+                <option>Washroom</option>
+                <option>WiFi</option>
+                <option>Laboratory</option>
+                <option>Library</option>
+                <option>Electricity</option>
+
+            </select>
+
+            <textarea
+                name="issue"
+                placeholder="Describe Your Issue"
+                required
+            ></textarea>
+
+            <button type="submit">
+                Submit Complaint
+            </button>
+
+        </form>
+
+        <a href="/" class="back-link">
+            ← Back to Home
+        </a>
+
+    </div>
+
 </div>
 
 </body>

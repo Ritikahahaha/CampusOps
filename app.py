@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail, Message
+from collections import Counter
 
 app = Flask(__name__)
 app.secret_key = "campusops_secret"
@@ -14,7 +15,7 @@ app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = 'campusops.project@gmail.com'
-app.config['MAIL_PASSWORD'] = 'yivs gieg yqff hddk'  # 🔴 replace with App Password
+app.config['MAIL_PASSWORD'] = 'yivsgiegyqffhddk'  # 🔴 App Password required
 app.config['MAIL_DEFAULT_SENDER'] = 'campusops.project@gmail.com'
 
 db = SQLAlchemy(app)
@@ -42,16 +43,11 @@ def complaint():
 
     if request.method == 'POST':
 
-        name = request.form['name']
-        email = request.form['email']
-        category = request.form['category']
-        issue = request.form['issue']
-
         new_c = Complaint(
-            name=name,
-            email=email,
-            category=category,
-            issue=issue,
+            name=request.form['name'],
+            email=request.form['email'],
+            category=request.form['category'],
+            issue=request.form['issue'],
             status="Pending"
         )
 
@@ -62,18 +58,17 @@ def complaint():
         try:
             msg = Message(
                 "New Complaint Received",
-                recipients=[email]
+                recipients=[new_c.email]
             )
 
             msg.body = f"""
 New Complaint Received
 
-Name: {name}
-
-Category: {category}
+Name: {new_c.name}
+Category: {new_c.category}
 
 Issue:
-{issue}
+{new_c.issue}
 
 Status: Pending
 
@@ -122,12 +117,23 @@ def dashboard():
     pending = Complaint.query.filter_by(status="Pending").count()
     resolved = Complaint.query.filter_by(status="Resolved").count()
 
+    # ⭐ CATEGORY COUNT FOR BAR CHART
+    if complaints:
+        counter = Counter([c.category for c in complaints])
+        categories = list(counter.keys())
+        category_counts = list(counter.values())
+    else:
+        categories = []
+        category_counts = []
+
     return render_template(
         "dashboard.html",
         complaints=complaints,
         total=total,
         pending=pending,
-        resolved=resolved
+        resolved=resolved,
+        categories=categories,
+        category_counts=category_counts
     )
 
 
@@ -135,20 +141,19 @@ def dashboard():
 @app.route('/resolve/<int:id>')
 def resolve(id):
 
-    c = db.session.get(Complaint, id)
+    c = Complaint.query.get_or_404(id)
 
-    if c:
-        c.status = "Resolved"
-        db.session.commit()
+    c.status = "Resolved"
+    db.session.commit()
 
-        # ================= EMAIL ON RESOLVE =================
-        try:
-            msg = Message(
-                "Complaint Resolved",
-                recipients=[c.email]
-            )
+    # ================= EMAIL ON RESOLVE =================
+    try:
+        msg = Message(
+            "Complaint Resolved",
+            recipients=[c.email]
+        )
 
-            msg.body = f"""
+        msg.body = f"""
 Hello {c.name},
 
 Your complaint has been RESOLVED successfully.
@@ -163,10 +168,10 @@ Status: Resolved
 CampusOps System
 """
 
-            mail.send(msg)
+        mail.send(msg)
 
-        except Exception as e:
-            print("Email error:", e)
+    except Exception as e:
+        print("Email error:", e)
 
     return redirect("/dashboard")
 
